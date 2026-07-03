@@ -38,6 +38,7 @@ function hmx_build_tracker_tag( $site_key ) {
 		return '';
 	}
 	$src = HMX_TRACKER_HOST . '/tracker.js?key=' . rawurlencode( $site_key );
+	// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript -- Intentional inline async tracker tag (GTM-style dual-key format); not a themeable asset, so wp_enqueue_script() does not apply.
 	return '<script async src="' . esc_url( $src ) . '" data-site-key="'
 		. esc_attr( $site_key ) . '"></script>' . "\n";
 }

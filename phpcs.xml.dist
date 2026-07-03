@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<ruleset name="HeatMapX">
+	<description>WordPress coding standards for the HeatMapX plugin.</description>
+	<file>heatmapx.php</file>
+	<file>uninstall.php</file>
+	<file>includes</file>
+	<arg value="sp"/>
+	<rule ref="WordPress-Extra"/>
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="heatmapx"/>
+			</property>
+		</properties>
+	</rule>
+	<config name="minimum_wp_version" value="6.5"/>
+</ruleset>
