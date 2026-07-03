@@ -22,6 +22,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once __DIR__ . '/includes/functions.php';
 
+if ( is_admin() ) {
+	require_once __DIR__ . '/includes/settings-page.php';
+}
+
+/**
+ * Add a Settings shortcut on the Plugins list row.
+ *
+ * @param array $links Existing action links.
+ * @return array
+ */
+function hmx_plugin_action_links( $links ) {
+	$url = admin_url( 'options-general.php?page=heatmapx' );
+	array_unshift( $links, '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Settings', 'heatmapx' ) . '</a>' );
+	return $links;
+}
+add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'hmx_plugin_action_links' );
+
 /**
  * Current settings merged over defaults.
  *
