@@ -69,4 +69,41 @@ final class FunctionsTest extends TestCase {
 		$this->assertSame( self::KEY, $out['site_key'] );
 		$this->assertFalse( $out['exclude_admins'] );
 	}
+
+	public function test_tracker_src_builds_url_with_key(): void {
+		$this->assertSame(
+			'https://heatmapx.com/tracker.js?key=' . self::KEY,
+			hmx_tracker_src( self::KEY )
+		);
+	}
+
+	public function test_tracker_src_returns_empty_for_invalid_key(): void {
+		$this->assertSame( '', hmx_tracker_src( 'bad key!' ) );
+		$this->assertSame( '', hmx_tracker_src( '' ) );
+	}
+
+	public function test_filter_script_tag_leaves_other_handles_unchanged(): void {
+		$tag = '<script src="https://example.com/other.js" id="other-js"></script>' . "\n";
+		$this->assertSame( $tag, hmx_filter_script_tag( $tag, 'other-handle' ) );
+	}
+
+	public function test_filter_script_tag_adds_data_site_key_for_heatmapx_handle(): void {
+		$tag      = '<script src="' . HMX_TRACKER_HOST . '/tracker.js?key=' . self::KEY
+			. '" id="heatmapx-js" async></script>' . "\n";
+		$expected = '<script data-site-key="' . self::KEY . '" src="' . HMX_TRACKER_HOST
+			. '/tracker.js?key=' . self::KEY . '" id="heatmapx-js" async></script>' . "\n";
+		$this->assertSame( $expected, hmx_filter_script_tag( $tag, 'heatmapx' ) );
+	}
+
+	public function test_filter_script_tag_escapes_extracted_key(): void {
+		$tag      = '<script src="' . HMX_TRACKER_HOST . '/tracker.js?key=%22%3E%3Cb%3E"'
+			. ' id="heatmapx-js"></script>' . "\n";
+		$result   = hmx_filter_script_tag( $tag, 'heatmapx' );
+		$this->assertStringContainsString( 'data-site-key="&quot;&gt;&lt;b&gt;"', $result );
+	}
+
+	public function test_filter_script_tag_leaves_tag_unchanged_when_no_key_found(): void {
+		$tag = '<script src="' . HMX_TRACKER_HOST . '/tracker.js" id="heatmapx-js"></script>' . "\n";
+		$this->assertSame( $tag, hmx_filter_script_tag( $tag, 'heatmapx' ) );
+	}
 }

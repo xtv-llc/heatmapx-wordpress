@@ -26,21 +26,63 @@ function hmx_sanitize_site_key( $key ) {
 }
 
 /**
+ * Build the tracker script URL (?key=... query arg), for use with wp_enqueue_script().
+ *
+ * @param string $site_key Site key.
+ * @return string Empty string when the key is invalid.
+ */
+function hmx_tracker_src( $site_key ) {
+	$site_key = hmx_sanitize_site_key( $site_key );
+	if ( '' === $site_key ) {
+		return '';
+	}
+	return HMX_TRACKER_HOST . '/tracker.js?key=' . rawurlencode( $site_key );
+}
+
+/**
  * Build the tracker <script> tag in the dual-key format
  * (?key= in src AND data-site-key), so the key survives GTM-like rewrites.
+ *
+ * Used only for the settings-page preview; the actual front-end tag is
+ * produced by wp_enqueue_script() + the script_loader_tag filter (see
+ * hmx_enqueue_tracker() / hmx_filter_script_tag() in heatmapx.php).
  *
  * @param string $site_key Site key.
  * @return string Empty string when the key is invalid.
  */
 function hmx_build_tracker_tag( $site_key ) {
-	$site_key = hmx_sanitize_site_key( $site_key );
-	if ( '' === $site_key ) {
+	$src = hmx_tracker_src( $site_key );
+	if ( '' === $src ) {
 		return '';
 	}
-	$src = HMX_TRACKER_HOST . '/tracker.js?key=' . rawurlencode( $site_key );
-	// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript -- Intentional inline async tracker tag (GTM-style dual-key format); not a themeable asset, so wp_enqueue_script() does not apply.
+	$site_key = hmx_sanitize_site_key( $site_key );
+	// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript -- Preview string for the settings-page <code> block only; not printed on the front end (front-end output uses wp_enqueue_script(), see heatmapx.php).
 	return '<script async src="' . esc_url( $src ) . '" data-site-key="'
 		. esc_attr( $site_key ) . '"></script>' . "\n";
+}
+
+/**
+ * Add the data-site-key attribute to the enqueued tracker <script> tag
+ * (dual-key format: ?key= in src AND data-site-key attribute), so the key
+ * survives GTM-like tag-manager rewrites. Pure string operation: the site
+ * key is read back out of the already-built src="...?key=..." rather than
+ * looked up again, so this only ever touches the tag WordPress generated
+ * for our own enqueued handle.
+ *
+ * @param string $tag    The `<script>` tag markup WordPress generated.
+ * @param string $handle Registered script handle for the tag.
+ * @return string
+ */
+function hmx_filter_script_tag( $tag, $handle ) {
+	if ( 'heatmapx' !== $handle ) {
+		return $tag;
+	}
+	if ( ! preg_match( '/[?&]key=([^"&]+)/', $tag, $matches ) ) {
+		return $tag;
+	}
+	$site_key = rawurldecode( $matches[1] );
+	$attr     = 'data-site-key="' . esc_attr( $site_key ) . '" ';
+	return str_replace( ' src=', ' ' . $attr . 'src=', $tag );
 }
 
 /**

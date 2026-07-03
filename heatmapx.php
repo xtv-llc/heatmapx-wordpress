@@ -61,14 +61,25 @@ function hmx_load_textdomain() {
 add_action( 'init', 'hmx_load_textdomain' );
 
 /**
- * Print the tracker tag on front-end pages.
+ * Enqueue the tracker script on front-end pages.
  */
-function hmx_output_tracker_tag() {
+function hmx_enqueue_tracker() {
 	$settings      = hmx_get_settings();
 	$user_is_admin = is_user_logged_in() && current_user_can( 'manage_options' );
 	if ( ! hmx_should_output_tag( $settings['site_key'], $settings['exclude_admins'], $user_is_admin ) ) {
 		return;
 	}
-	echo hmx_build_tracker_tag( $settings['site_key'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped inside hmx_build_tracker_tag().
+	wp_enqueue_script(
+		'heatmapx',
+		hmx_tracker_src( $settings['site_key'] ),
+		array(),
+		null, // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Intentional: this is a remote, self-hosted CDN script (heatmapx.com), not a bundled plugin asset, so a local ?ver= cache-buster does not apply; the tracker host manages its own script versioning/cache headers.
+		array(
+			'in_footer' => false,
+			'strategy'  => 'async',
+		)
+	);
 }
-add_action( 'wp_head', 'hmx_output_tracker_tag', 20 );
+add_action( 'wp_enqueue_scripts', 'hmx_enqueue_tracker' );
+
+add_filter( 'script_loader_tag', 'hmx_filter_script_tag', 10, 2 );
