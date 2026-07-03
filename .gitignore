@@ -4,3 +4,5 @@ dist/
 .DS_Store
 composer.lock
 package-lock.json
+.superpowers/
+.phpunit.result.cache
