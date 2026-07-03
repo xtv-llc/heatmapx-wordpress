@@ -1,0 +1,44 @@
+# Copyright (C) 2026 XTV LLC
+# This file is distributed under the same license as the HeatMapX package.
+msgid ""
+msgstr ""
+"Project-Id-Version: HeatMapX 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-03 18:50+0000\n"
+"PO-Revision-Date: 2026-07-03 18:50+0000\n"
+"Last-Translator: \n"
+"Language-Team: Japanese\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Tracking"
+msgstr "トラッキング"
+
+msgid "Site key"
+msgstr "サイトキー"
+
+msgid "Administrators"
+msgstr "管理者"
+
+msgid "Find your site key in the HeatMapX dashboard (Sites → Install)."
+msgstr "サイトキーは HeatMapX ダッシュボード（サイト → 設置）で確認できます。"
+
+msgid "Do not track logged-in administrators (recommended)"
+msgstr "ログイン中の管理者は計測しない（推奨）"
+
+msgid "No HeatMapX account yet? Create one for free and copy your site key."
+msgstr "HeatMapX アカウントをお持ちでない場合は、無料登録してサイトキーを取得してください。"
+
+msgid "Get your free site key →"
+msgstr "無料でサイトキーを取得 →"
+
+msgid "Tag preview"
+msgstr "挿入タグのプレビュー"
+
+msgid "This tag is inserted automatically on every public page:"
+msgstr "このタグがすべての公開ページに自動で挿入されます:"
+
+msgid "Settings"
+msgstr "設定"
