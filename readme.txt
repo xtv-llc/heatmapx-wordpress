@@ -26,8 +26,8 @@ This plugin adds the HeatMapX tracking snippet to your site automatically:
 This plugin loads the HeatMapX tracking script from `heatmapx.com` and sends anonymized interaction events (clicks, scroll depth, mouse movement, page URL, viewport size) from your visitors' browsers to HeatMapX so that heatmaps and analytics can be rendered in your dashboard.
 
 * Service: HeatMapX (operated by XTV LLC)
-* Privacy policy: https://heatmapx.com/ja/privacy
-* Terms of service: https://heatmapx.com/ja/terms
+* Privacy policy: https://heatmapx.com/en/privacy
+* Terms of service: https://heatmapx.com/en/terms
 
 Data is only sent after you save a site key. Deactivating the plugin stops all data collection immediately.
 
