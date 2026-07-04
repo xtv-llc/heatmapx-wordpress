@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: HeatMapX – Heatmaps & A/B Testing
- * Plugin URI: https://heatmapx.com
+ * Plugin URI: https://github.com/xtv-llc/heatmapx-wordpress
  * Description: Heatmaps, session analytics and A/B testing by HeatMapX. Paste your site key — no theme editing required.
  * Version: 1.0.0
  * Requires at least: 6.5
