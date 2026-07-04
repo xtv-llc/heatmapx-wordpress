@@ -6,6 +6,10 @@
  * @package HeatMapX
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! defined( 'HMX_TRACKER_HOST' ) ) {
 	define( 'HMX_TRACKER_HOST', 'https://heatmapx.com' );
 }
