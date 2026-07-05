@@ -60,4 +60,4 @@ By default, logged-in administrators are not tracked. You can change this under 
 == Changelog ==
 
 = 1.0.0 =
-* Initial release: automatic snippet insertion, admin exclusion option, Japanese translation.
+* Initial release: automatic snippet insertion, admin exclusion option.

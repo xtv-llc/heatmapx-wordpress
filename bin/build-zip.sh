@@ -10,7 +10,7 @@ ln -sfn "$(pwd)" dist/stage/heatmapx
   cd dist/stage
   zip -FS -r "../heatmapx-${VERSION}.zip" \
     heatmapx/heatmapx.php heatmapx/uninstall.php heatmapx/readme.txt \
-    heatmapx/includes heatmapx/languages \
+    heatmapx/includes \
     -x '*.DS_Store'
 )
 echo "Built dist/heatmapx-${VERSION}.zip"
